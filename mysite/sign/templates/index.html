@@ -1,0 +1,15 @@
+
+
+<h1>this is login page!</h1>
+
+<form action="/login_action" method="post">
+	<p>账号: <input type="text" name="username" /></p>
+	<p>密码: <input type="password" name="password" /></p>
+	{{ hint }} <br>
+	{% csrf_token %}
+	<input type="submit" value="登录" />
+</form>
+
+form_action.asp?fname=tom&lname=123
+
+login_action?username=tom&password=123
