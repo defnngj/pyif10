@@ -3,3 +3,9 @@
 
 欢迎，{{ welcome_user }} !
 <a href="/logout">logout</a>
+<br>
+{% for event in events %}
+    {{ event.name }} <br>
+    {{ event.address }} <br>
+    {{ event.start_time }} <br>
+{% endfor %}

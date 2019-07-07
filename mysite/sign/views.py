@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
-
+from sign.models import Event, Guest
 
 # Create your views here.
 # 一个请求的主要处理逻辑
@@ -11,29 +11,30 @@ def hello(request):
 
 
 def login(request):
-	"""返回登录的页面"""
-	return render(request, "index.html")
-
-
-def login_action(request):
-	"""处理登录的请求"""
-	my_username = request.POST.get("username")
-	my_password = request.POST.get("password")
-	print(type(my_username))
-	print(type(my_password))
-	if my_username == "" or my_password == "":
-		return render(request, "index.html", {"hint": "用户名或密码为空！"})
-
-	user = auth.authenticate(username=my_username, password=my_password)
-	print("有没有这个用户", user)
-	if user is not None:
-		auth.login(request, user)
-		response = HttpResponseRedirect("/manage")
-		# response.set_cookie('user', my_username, 3600) # 添加浏览器 cookie
-		request.session['user2'] = my_username  # 添加 session
-		return response
+	"""实现登录功能"""
+	if request.method == "GET":
+		# 返回登录页面
+		return render(request, "index.html")
 	else:
-		return render(request, "index.html", {"hint": "用户名密错误！"})
+		# 处理登录请求
+		my_username = request.POST.get("username")
+		my_password = request.POST.get("password")
+		print(type(my_username))
+		print(type(my_password))
+		
+		if my_username == "" or my_password == "":
+			return render(request, "index.html", {"hint": "用户名或密码为空！"})
+
+		user = auth.authenticate(username=my_username, password=my_password)
+		print("有没有这个用户", user)
+		if user is not None:
+			auth.login(request, user)
+			response = HttpResponseRedirect("/manage")
+			# response.set_cookie('user', my_username, 3600) # 添加浏览器 cookie
+			request.session['user2'] = my_username  # 添加 session
+			return response
+		else:
+			return render(request, "index.html", {"hint": "用户名密错误！"})
 
 
 # 这个试图，它要校验用户有没有登录过？
@@ -42,8 +43,10 @@ def manage(request):
 	"""管理页面"""
 	# cookie_user = request.COOKIES.get('user')  # 读取浏览器 cookie
 	cookie_user = request.session.get('user2')
+	event_list = Event.objects.all()
 	print("---->", cookie_user)
-	return render(request, "manage.html", {"welcome_user": cookie_user })
+	return render(request, "manage.html", {"welcome_user": cookie_user,
+											"events": event_list})
 
 
 def logout(request):

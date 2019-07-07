@@ -80,6 +80,15 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'dev.sqlite3'),
     }
 }
+# mysql 配置
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'OPTIONS': {
+#             'read_default_file': os.path.join(BASE_DIR, 'my.cnf'),
+#         },
+#     }
+# }
 
 
 # Password validation
@@ -112,7 +121,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
