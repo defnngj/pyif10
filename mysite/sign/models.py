@@ -1,15 +1,5 @@
 from django.db import models
 
-#Event.objects.create(name="小米8发布会", limit=2000, status=True, address="北京", start_time="2019-12-12 14:00:00")
-# event = Event.objects.get(id=1)
-#
-# Guest.objects.create(realname="张三", phone="18611001100", email="zhangsan@mail.com", sign=False, event=event)
-#
-# Guest.objects.create(realname="李四", phone="18611001100",email="lisi@mail.com", sign=False, event_id=1)
-# Guest.objects.select_for_update().filter(phone='13611001101').update(realname='andy')
-#
-# Guest.objects.select_for_update().filter(id=1).update(realname="张三")
-
 
 # Create your models here.
 class Event(models.Model):

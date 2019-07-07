@@ -19,14 +19,12 @@ def login(request):
 		# 处理登录请求
 		my_username = request.POST.get("username")
 		my_password = request.POST.get("password")
-		print(type(my_username))
-		print(type(my_password))
 		
 		if my_username == "" or my_password == "":
 			return render(request, "index.html", {"hint": "用户名或密码为空！"})
 
 		user = auth.authenticate(username=my_username, password=my_password)
-		print("有没有这个用户", user)
+
 		if user is not None:
 			auth.login(request, user)
 			response = HttpResponseRedirect("/manage")
