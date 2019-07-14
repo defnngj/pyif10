@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Starter Template for Bootstrap</title>
+    {% load static %}
+    <link rel="icon" href="{% static "favicon.ico" %}">
+    <!-- Bootstrap core CSS -->
+    <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static "css/starter-template.css" %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container" style="margin-right: 5px; margin-left: 5px;">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                    aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/manage">{{ event.name }}</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/manage">发布会</a></li>
+                <li><a href="/guest">嘉宾</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/logout">退出</a></li>
+            </ul>
+        </div><!--/.nav-collapse -->
+
+    </div>
+</nav>
+
+<div class="container">
+
+    <form class="navbar-form navbar-left"
+          action="/sign_index/{{ event.id }}/" method="post"
+          style="margin-top: 20px;">
+        <div class="form-group">
+            <input type="text" class="form-control" name="phone">
+        </div>
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">搜索</button>
+        <br>{{ hint }}
+    </form>
+
+</div><!-- /.container -->
+
+<!-- 列表分页器 -->
+
+
+</body>
+</html>
+
+<style>
+    .table > tbody > tr > td {
+        text-align: left;
+    }
+</style>
