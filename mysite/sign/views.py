@@ -25,10 +25,9 @@ def login(request):
         my_password = request.POST.get("password")
 
         if my_username == "" or my_password == "":
-            return render(request, "index.html", {"hint": "用户名或密码为空！"})
+            return render(request, "index.html", {"hint": "username or password null!"})
 
         user = auth.authenticate(username=my_username, password=my_password)
-
         if user is not None:
             auth.login(request, user)
             response = HttpResponseRedirect("/manage")
@@ -36,7 +35,7 @@ def login(request):
             request.session['user2'] = my_username  # 添加 session
             return response
         else:
-            return render(request, "index.html", {"hint": "用户名密错误！"})
+            return render(request, "index.html", {"hint": "username or password error!"})
 
 
 # 这个试图，它要校验用户有没有登录过？
