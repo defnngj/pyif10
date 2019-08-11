@@ -1,7 +1,7 @@
 import os
 import json
 from django.forms.models import model_to_dict
-from api.common import Response
+from api.common import ApiResponse
 from api.models import User
 from mysite.settings import BASE_DIR
 
@@ -12,7 +12,7 @@ def hello(request):
     :param request:
     :return:
     """
-    return Response().success(message="Welcome to API testing")
+    return ApiResponse(status=100, message="Welcome to API testing")
 
 
 def user(request, uid):
@@ -31,10 +31,10 @@ def user(request, uid):
         try:
             user = User.objects.get(id=uid)
         except User.DoesNotExist:
-            return Response().fail(status=10101, message="用户信息不存在")
+            return ApiResponse(101, "用户信息不存在")
         else:
             user_info = model_to_dict(user)
-            return Response().success(data=user_info)
+            return ApiResponse(200, data=user_info)
 
     elif request.method == "POST":
         post = json.loads(request.body)
@@ -45,9 +45,9 @@ def user(request, uid):
         except User.DoesNotExist:
             user = User.objects.create(id=uid, name=name, age=age)
             user_info = model_to_dict(user)
-            return Response().success(message="add success", data=user_info)
+            return ApiResponse(message="add success", data=user_info)
         else:
-            return Response().fail(status=10102, message="用户id已存在")
+            return ApiResponse(102, "用户id已存在")
 
     elif request.method == "PUT":
         put = json.loads(request.body)
@@ -56,24 +56,24 @@ def user(request, uid):
         try:
             user = User.objects.get(id=uid)
         except User.DoesNotExist:
-            return Response().fail(status=10101, message="用户信息不存在")
+            return ApiResponse(101, "用户信息不存在")
         else:
             user.name = name
             user.age = age
             user.save()
             user_info = model_to_dict(user)
-            return Response().success(message="update success", data=user_info)
+            return ApiResponse(message="update success", data=user_info)
 
     elif request.method == "DELETE":
         try:
             user = User.objects.get(id=uid)
         except User.DoesNotExist:
-            return Response().fail(status=10101, message="用户信息不存在")
+            return ApiResponse(101, "用户信息不存在")
         else:
             user.delete()
-            return Response().success(message="delete success")
+            return ApiResponse(message="delete success")
     else:
-        return Response().request_error
+        return ApiResponse(100, message="请求方法错误")
 
 
 def post_req(request):
@@ -93,7 +93,7 @@ def post_req(request):
         name = body.get("name")
         print("json-name-->", name)
 
-        return Response().success()
+        return ApiResponse(status=200, message="successful")
 
 
 def header(request):
@@ -108,7 +108,7 @@ def header(request):
     print("ct--->", ct)
     print("token--->", token)
 
-    return Response().success()
+    return ApiResponse(status=200, message="successful")
 
 
 def upload_file(request):
@@ -126,7 +126,7 @@ def upload_file(request):
         print(ff)
         print("文件大小=》", f.size)
         if ff == "exe" or ff == "js":
-            return Response().fail(status=10102, message="不支持这种类型的上传")
+            return ApiResponse(status=102, message="不支持这种类型的上传")
 
         # 保存上传的文件
         upload_dir = os.path.join(BASE_DIR, "api/upload")
@@ -135,7 +135,7 @@ def upload_file(request):
         for chunk in f.chunks():  # 分块写入文件
             destination.write(chunk)
         destination.close()
-    return Response().success()
+    return ApiResponse(status=200, message="successful")
 
 
 
