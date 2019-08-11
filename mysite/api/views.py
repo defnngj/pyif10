@@ -6,6 +6,7 @@ from django.core.exceptions import ValidationError
 from api.common import Response
 
 
+# 实现项目当中的系统 和 业务有关
 def hello_api(request):
     interface_data2 = {"id": 123, "name": "tom"}
     return Response().success(data=interface_data2)
@@ -27,7 +28,7 @@ def get_events(request):
         return Response().request_error
 
 
-def get_event(request):
+def get_event_by_id(request):
     """
     根据id,获取某一个发布会数据
     """
@@ -173,7 +174,6 @@ def delete_event(request):
 发布会：查询、添加、更新、删除
 嘉宾：查询、添加、更新、删除
 """
-
 
 
 def guest_sign(request):
