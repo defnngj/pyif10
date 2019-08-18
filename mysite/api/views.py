@@ -8,7 +8,7 @@ from api.common import Response
 
 # 实现项目当中的系统 和 业务有关
 def hello_api(request):
-    interface_data2 = {"id": 123, "name": "tom"}
+    interface_data2 = {"id": 2, "name": "tom"}
     return Response().success(data=interface_data2)
 
 
@@ -88,7 +88,7 @@ def add_event(request):
             status = 1
 
         try:
-            Event.objects.create(id=id, name=name, limit=limit, status=status,
+            Event.objects.create(name=name, limit=limit, status=status,
                                  address=address, start_time=start_time)
         except ValidationError:
             return Response().fail(2, message="日期格式错误")
