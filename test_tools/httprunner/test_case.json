@@ -1,0 +1,31 @@
+[  
+    {
+        "config": {
+            "name": "basic test with httpbin",
+            "base_url": "http://127.0.0.1:8000/api",
+            "validate": [
+                {"eq": ["status_code", 200]}
+            ],
+            "output": [
+                "result"
+            ]
+        }
+    },
+
+    {
+        "test": {
+            "name": "test hello api",
+            "request": {
+                "url": "/hello_api/",
+                "method": "GET"
+            },
+            "extract": {
+                "result": "content"
+            },
+            "validate": [
+                {"eq": ["content.message", "success"]}
+            ]
+
+        }
+    }
+]

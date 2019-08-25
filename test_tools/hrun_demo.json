@@ -1,0 +1,98 @@
+[
+    {
+        "config": {
+            "name": "setup and reset all",
+            "base_url": "http://127.0.0.1:8000/api",
+            "validate": [
+                {
+                    "eq": [
+                        "status_code",
+                        200
+                    ]
+                }
+            ],
+            "output": [
+                "event_id"
+            ]
+        }
+    },
+    {
+        "test": {
+            "name": "test hello api",
+            "request":{
+                "url": "/hello_api/",
+                "method": "GET"
+            },
+            "validate":[
+                {"eq": ["content.status", 10200]},
+                {"eq": ["content.message", "success"]}
+            ],
+            "extract": {
+                "event_id": "content.data.id"
+            }
+           
+        }
+    },
+    {
+        "test": {
+            "name": "test get event by id",
+            "request": {
+                "url": "/get_event_by_id/",
+                "method": "GET",
+                "params": {"eid": "$event_id"}
+            },
+            "validate": [
+                {
+                    "eq": [
+                        "content.status",
+                        10200
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.message",
+                        "success"
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.data.id",
+                        2
+                    ]
+
+                }
+
+            ]
+        }
+    },
+    {
+        "test": {
+            "name": "test add event",
+            "request": {
+                "url": "/add_event/",
+                "method": "POST",
+                "data": {
+                    "name": "xiaomi11 event",
+                    "address": "beijing",
+                    "limit": 5000,
+                    "start_time": "2020"
+                }
+            },
+            "validate": [
+                {
+                    "eq": [
+                        "content.status",
+                        10102
+                    ]
+                },
+                {
+                    "eq": [
+                        "content.message",
+                        "日期格式错误"
+                    ]
+                }
+            ]
+        }
+    }
+    
+]
