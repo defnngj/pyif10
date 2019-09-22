@@ -185,20 +185,20 @@ def guest_sign(request):
         phone = request.POST.get("phone", "")
 
         if eid == "" or phone == "":
-            return Response().fail(1, message="eid或phone参数为空！")
+            return Response().fail(1, message="eid或phone参数为空")
 
         try:
             int(eid)
         except ValueError:
-            return Response().fail(2, "eid is not int type")
+            return Response().fail(2, "eid类型错误")
 
         try:
             event = Event.objects.get(id=eid)
         except Event.DoesNotExist:
-            return Response().fail(3, "Event matching query does not exist.")
+            return Response().fail(3, "发布会不存在")
         else:
             if event.status == 0:
-                return Response().fail(4, "status close")
+                return Response().fail(4, "发布会状态已关闭")
 
             this_date = datetime.strptime(str(event.start_time), '%Y-%m-%d %H:%M:%S')
             event_time = time.mktime(this_date.timetuple())
@@ -210,11 +210,11 @@ def guest_sign(request):
 
         guest = Guest.objects.filter(phone=phone)
         if len(guest) == 0:
-            return Response().fail(5, "Guest matching query does not exist.")
+            return Response().fail(6, "签到的嘉宾不存在")
 
         guest = Guest.objects.filter(phone=phone, event_id=eid)
         if len(guest) == 0:
-            return Response().fail(6, "The phone doesn't match eid")
+            return Response().fail(7, "嘉宾没有参加该发布会")
 
         guest = Guest.objects.get(phone=phone, event_id=eid)
         if guest.sign == 1:

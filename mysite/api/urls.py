@@ -1,7 +1,7 @@
 from django.urls import path
 from api import views
 from api import more_api
-
+from api import views_sec
 
 urlpatterns = [
     # learning interface test:
@@ -23,4 +23,9 @@ urlpatterns = [
     path('post_req/', more_api.post_req),
     path('header/', more_api.header),
     path('upload/', more_api.upload_file),
+
+    # 安全机制
+    path("user_auth", views_sec.user_auth),
+    path("user_sign", views_sec.user_sign),
+    path("user_aes", views_sec.user_aes),
 ]
